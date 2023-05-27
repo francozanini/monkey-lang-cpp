@@ -10,6 +10,12 @@ enum class TokenType {
   //operators
   assign,
   plus,
+  minus,
+  negate,
+  divide,
+  multiply,
+  lt,
+  gt,
 
   //delimiters
   comma,

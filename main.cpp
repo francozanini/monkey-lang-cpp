@@ -10,13 +10,14 @@ void assert(bool condition, std::string message) {
   }
 }
 
-void test_lexer(Lexer lexer, TokenType expectedTokens[]) {
-  for (int i = 0; i < 8; i++) {
+void test_lexer(Lexer lexer, TokenType expectedTokens[], int expectedTokensLength) {
+  for (int i = 0; i < expectedTokensLength; i++) {
     Token* nextToken = lexer.nextToken();
     assert(nextToken->type == expectedTokens[i], std::format("expression {} with type {} is not expected token {}", nextToken->literal, nextToken->tokenTypeAsString(), toString(expectedTokens[i])));
+    free(nextToken);
   }
+  std::cout << "Test passed" << std::endl;
 }
-
 
 int main()
 {
@@ -24,18 +25,9 @@ int main()
   Lexer lexer = Lexer("=+(){},;");
   TokenType tokens[] = {TokenType::assign, TokenType::plus, TokenType::lparen, TokenType::rparen, TokenType::lbrace, TokenType::rbrace, TokenType::comma, TokenType::semicolon};
 
-  test_lexer(lexer, tokens);
+  test_lexer(lexer, tokens, 8);
 
   // test 1
-
-  std::string input = R"(
-    let five = 5;
-    let ten = 10;
-    let add = fn(x, y) {
-      x + y;
-    };
-    let result = add(five, ten);
-  )";
 
   TokenType expectedTokens[] = {
    TokenType::let, TokenType::identifier,TokenType::assign,  TokenType::integer, TokenType::semicolon,
@@ -44,13 +36,22 @@ int main()
    TokenType::identifier, TokenType::plus, TokenType::identifier, TokenType::semicolon,
    TokenType::rbrace, TokenType::semicolon,
    TokenType::let, TokenType::identifier, TokenType::assign, TokenType::identifier, TokenType::lparen, TokenType::identifier, TokenType::comma, TokenType::identifier, TokenType::rparen, TokenType::semicolon,
-   TokenType::eof
+   TokenType::negate, TokenType::minus, TokenType::divide, TokenType::multiply, TokenType::integer, TokenType::semicolon,
+   TokenType::integer, TokenType::lt, TokenType::integer, TokenType::gt, TokenType::integer, TokenType::semicolon,
+   TokenType::eof,
   };
+  lexer = Lexer(R"(
+    let five = 5;
+    let ten = 10;
+    let add = fn(x, y) {
+      x + y;
+    };
+    let result = add(five, ten);
+    !-/*5;
+    5 < 10 > 5;
+  )");
 
-  lexer = Lexer(input);
-
-  test_lexer(lexer, expectedTokens);
-
+  test_lexer(lexer, expectedTokens, 46);
 
   return 0;
 }

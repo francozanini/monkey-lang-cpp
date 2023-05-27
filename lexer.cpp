@@ -54,6 +54,24 @@ Token* Lexer::nextToken() {
     case ';':
       token = new Token(TokenType::semicolon, ";");
       break;
+    case '!': 
+      token = new Token(TokenType::negate, "!");
+      break;
+    case '-': 
+      token = new Token(TokenType::minus, "-");
+      break;
+    case '/': 
+      token = new Token(TokenType::divide, "/");
+      break;
+    case '*': 
+      token = new Token(TokenType::multiply, "*");
+      break;
+    case '<': 
+      token = new Token(TokenType::lt, "<");
+      break;
+    case '>': 
+      token = new Token(TokenType::gt, ">");
+      break;
     default: {
       if (isalpha(this->currentChar)) {
         std::string identifier = this->readIdentifier();

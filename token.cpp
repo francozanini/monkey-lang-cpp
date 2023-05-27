@@ -1,4 +1,5 @@
 #include "token.h"
+#include <iostream>
 
 Token::Token(TokenType type, std::string literal) : type(type), literal(literal) {}
 
@@ -47,7 +48,19 @@ std::string toString(TokenType type) {
       return "FUNCTION";
     case TokenType::let:
       return "LET";
-    default:
-      return "UNKNOWN";
+    case TokenType::minus:
+      return "MINUS";
+    case TokenType::negate:
+      return "NEGATE";
+    case TokenType::divide:
+      return "DIVIDE";
+    case TokenType::multiply:
+      return "MULTIPLY";
+    case TokenType::lt:
+      return "LT";
+    case TokenType::gt:
+      return "GT";
+    default: return "UNKNOWN";
+    
   }  
 };
