@@ -38,7 +38,7 @@ void Lexer::readChar() {
 }
 
 M::Token *Lexer::nextToken() {
-    M::Token *token = nullptr;
+    M::Token *token;
 
     this->skipWhitespace();
 
@@ -143,10 +143,6 @@ std::string Lexer::readInteger() {
         this->readChar();
     }
     return literal;
-}
-
-TEST_CASE("test") {
-    CHECK_EQ(5, 5);
 }
 
 TEST_CASE("ALL_TOKENS") {
