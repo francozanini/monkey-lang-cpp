@@ -3,6 +3,7 @@
 
 #include <string>
 #include "token.h"
+#include "memory"
 
 
 class Lexer {
@@ -28,7 +29,7 @@ public:
 
     ~Lexer();
 
-    M::Token *nextToken();
+    std::unique_ptr<M::Token> nextToken();
 };
 
 #endif

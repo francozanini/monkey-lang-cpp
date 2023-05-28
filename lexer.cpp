@@ -1,8 +1,10 @@
+#include <memory>
 #include <string>
 #include "Lexer.h"
 #include <iostream>
 #include <utility>
 #include "token.h"
+#include <memory>
 
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 
@@ -37,7 +39,7 @@ void Lexer::readChar() {
     this->readPosition++;
 }
 
-M::Token *Lexer::nextToken() {
+std::unique_ptr<M::Token> Lexer::nextToken() {
     M::Token *token;
 
     this->skipWhitespace();
@@ -105,19 +107,19 @@ M::Token *Lexer::nextToken() {
         default: {
             if (isalpha(this->currentChar)) {
                 std::string identifier = this->readIdentifier();
-                return new M::Token(M::lookupKeyword(identifier), identifier);
+                return std::make_unique<M::Token>(M::lookupKeyword(identifier), identifier);
             } else if (isdigit(this->currentChar)) {
-                return new M::Token(M::TokenType::INTEGER, this->readInteger());
+                return std::make_unique<M::Token>(M::TokenType::INTEGER, this->readInteger());
             } else {
                 std::cout << "illegal token: " << this->currentChar << std::endl;
-                return new M::Token(M::TokenType::ILLEGAL, "");
+                return std::make_unique<M::Token>(M::TokenType::ILLEGAL, "");
             }
         }
     }
 
     this->readChar();
 
-    return token;
+    return std::unique_ptr<M::Token>(token);
 }
 
 void Lexer::skipWhitespace() {
@@ -203,7 +205,7 @@ TEST_CASE("ALL_TOKENS") {
 
 
     for (auto &expectedToken: expectedTokens) {
-        M::Token *nextToken = lexer.nextToken();
+        auto nextToken = lexer.nextToken();
         std::string expected = M::toString(expectedToken);
         REQUIRE_EQ(nextToken->tokenTypeAsString(), expected);
     }
