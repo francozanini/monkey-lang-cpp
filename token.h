@@ -1,38 +1,45 @@
 #include <string>
 
 enum class TokenType {
-  illegal, 
-  eof,
+  ILLEGAL, 
+  EOF_,
   //literals + identifiers
-  identifier,
-  integer,
+  IDENTIFIER,
+  INTEGER,
 
   //operators
-  assign,
-  plus,
-  minus,
-  negate,
-  divide,
-  multiply,
-  lt,
-  gt,
+  ASSIGN,
+  PLUS,
+  MINUS,
+  NEGATE,
+  DIVIDE,
+  MULTIPLY,
+  LT,
+  GT,
+  EQ,
+  NOT_EQ,
 
   //delimiters
-  comma,
-  semicolon,
-  lparen,
-  rparen,
-  lbrace,
-  rbrace,
+  COMMA,
+  SEMICOLON,
+  LPAREN,
+  RPAREN,
+  LBRACE,
+  RBRACE,
 
   //keywords
-  function,
-  let
+  FUNCTION,
+  LET,
+  IF,
+  ELSE,
+  RETURN,
+  TRUE,
+  FALSE
 
 };
 
 std::string toString(TokenType type);
-TokenType lookupIdentifier(std::string identifier);
+TokenType lookupKeyword(std::string identifier);
 
 class Token {
 public:

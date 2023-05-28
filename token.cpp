@@ -7,60 +7,86 @@ std::string Token::tokenTypeAsString() {
   return toString(this->type);
 }
 
-TokenType lookupIdentifier(std::string identifier) {
+TokenType lookupKeyword(std::string identifier) {
   if (identifier == "fn") {
-    return TokenType::function;
+    return TokenType::FUNCTION;
   } else if (identifier == "let") {
-    return TokenType::let;
+    return TokenType::LET;
+  } else if (identifier == "if") {
+    return TokenType::IF;
+  } else if (identifier == "else") {
+    return TokenType::ELSE;
+  } else if (identifier == "return") {
+    return TokenType::RETURN;
+  } else if (identifier == "true") {
+    return TokenType::TRUE;
+  } else if (identifier == "false") {
+    return TokenType::FALSE;
   } else {
-    return TokenType::identifier;
+    return TokenType::IDENTIFIER;
   }
 }
 
 
 std::string toString(TokenType type) {
   switch (type) {
-    case TokenType::illegal:
+    case TokenType::ILLEGAL:
       return "ILLEGAL";
-    case TokenType::eof:
+    case TokenType::EOF_:
       return "EOF";
-    case TokenType::identifier:
+    case TokenType::IDENTIFIER:
       return "IDENTIFIER";
-    case TokenType::integer:
+    case TokenType::INTEGER:
       return "INTEGER";
-    case TokenType::assign:
+    case TokenType::ASSIGN:
       return "ASSIGN";
-    case TokenType::plus:
+    case TokenType::PLUS:
       return "PLUS";
-    case TokenType::comma:
+    case TokenType::COMMA:
       return "COMMA";
-    case TokenType::semicolon:
+    case TokenType::SEMICOLON:
       return "SEMICOLON";
-    case TokenType::lparen:
+    case TokenType::LPAREN:
       return "LPAREN";
-    case TokenType::rparen:
+    case TokenType::RPAREN:
       return "RPAREN";
-    case TokenType::lbrace:
+    case TokenType::LBRACE:
       return "LBRACE";
-    case TokenType::rbrace:
+    case TokenType::RBRACE:
       return "RBRACE";
-    case TokenType::function:
+    case TokenType::FUNCTION:
       return "FUNCTION";
-    case TokenType::let:
+    case TokenType::LET:
       return "LET";
-    case TokenType::minus:
+    case TokenType::MINUS:
       return "MINUS";
-    case TokenType::negate:
+    case TokenType::NEGATE:
       return "NEGATE";
-    case TokenType::divide:
+    case TokenType::DIVIDE:
       return "DIVIDE";
-    case TokenType::multiply:
+    case TokenType::MULTIPLY:
       return "MULTIPLY";
-    case TokenType::lt:
+    case TokenType::LT:
       return "LT";
-    case TokenType::gt:
+    case TokenType::GT:
       return "GT";
-    default: return "UNKNOWN";
+    case TokenType::EQ:
+      return "EQ";
+    case TokenType::NOT_EQ:
+      return "NOT_EQ";
+    case TokenType::IF:
+      return "IF";
+    case TokenType::ELSE:
+      return "ELSE";
+    case TokenType::RETURN:
+      return "RETURN";
+    case TokenType::TRUE:
+      return "TRUE";
+    case TokenType::FALSE:
+      return "FALSE";
+    default: {
+      std::cout << "Unknown token type: " << static_cast<int>(type) << std::endl;
+      return "UNKNOWN";}
     
   }  
 };

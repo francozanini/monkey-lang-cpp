@@ -23,22 +23,29 @@ int main()
 {
   // basic test
   Lexer lexer = Lexer("=+(){},;");
-  TokenType tokens[] = {TokenType::assign, TokenType::plus, TokenType::lparen, TokenType::rparen, TokenType::lbrace, TokenType::rbrace, TokenType::comma, TokenType::semicolon};
+  TokenType tokens[] = {TokenType::ASSIGN, TokenType::PLUS, TokenType::LPAREN, TokenType::RPAREN, TokenType::LBRACE, TokenType::RBRACE, TokenType::COMMA, TokenType::SEMICOLON};
 
   test_lexer(lexer, tokens, 8);
 
   // test 1
 
   TokenType expectedTokens[] = {
-   TokenType::let, TokenType::identifier,TokenType::assign,  TokenType::integer, TokenType::semicolon,
-   TokenType::let, TokenType::identifier, TokenType::assign, TokenType::integer, TokenType::semicolon,
-   TokenType::let, TokenType::identifier, TokenType::assign, TokenType::function, TokenType::lparen, TokenType::identifier, TokenType::comma, TokenType::identifier, TokenType::rparen, TokenType::lbrace,
-   TokenType::identifier, TokenType::plus, TokenType::identifier, TokenType::semicolon,
-   TokenType::rbrace, TokenType::semicolon,
-   TokenType::let, TokenType::identifier, TokenType::assign, TokenType::identifier, TokenType::lparen, TokenType::identifier, TokenType::comma, TokenType::identifier, TokenType::rparen, TokenType::semicolon,
-   TokenType::negate, TokenType::minus, TokenType::divide, TokenType::multiply, TokenType::integer, TokenType::semicolon,
-   TokenType::integer, TokenType::lt, TokenType::integer, TokenType::gt, TokenType::integer, TokenType::semicolon,
-   TokenType::eof,
+   TokenType::LET, TokenType::IDENTIFIER,TokenType::ASSIGN,  TokenType::INTEGER, TokenType::SEMICOLON,
+   TokenType::LET, TokenType::IDENTIFIER, TokenType::ASSIGN, TokenType::INTEGER, TokenType::SEMICOLON,
+   TokenType::LET, TokenType::IDENTIFIER, TokenType::ASSIGN, TokenType::FUNCTION, TokenType::LPAREN, TokenType::IDENTIFIER, TokenType::COMMA, TokenType::IDENTIFIER, TokenType::RPAREN, TokenType::LBRACE,
+   TokenType::IDENTIFIER, TokenType::PLUS, TokenType::IDENTIFIER, TokenType::SEMICOLON,
+   TokenType::RBRACE, TokenType::SEMICOLON,
+   TokenType::LET, TokenType::IDENTIFIER, TokenType::ASSIGN, TokenType::IDENTIFIER, TokenType::LPAREN, TokenType::IDENTIFIER, TokenType::COMMA, TokenType::IDENTIFIER, TokenType::RPAREN, TokenType::SEMICOLON,
+   TokenType::NEGATE, TokenType::MINUS, TokenType::DIVIDE, TokenType::MULTIPLY, TokenType::INTEGER, TokenType::SEMICOLON,
+   TokenType::INTEGER, TokenType::LT, TokenType::INTEGER, TokenType::GT, TokenType::INTEGER, TokenType::SEMICOLON,
+   TokenType::IF, TokenType::LPAREN, TokenType::INTEGER, TokenType::LT, TokenType::INTEGER, TokenType::RPAREN, TokenType::LBRACE,
+    TokenType::RETURN, TokenType::TRUE, TokenType::SEMICOLON,
+    TokenType::RBRACE, TokenType::ELSE, TokenType::LBRACE,
+    TokenType::RETURN, TokenType::FALSE, TokenType::SEMICOLON,
+    TokenType::RBRACE, 
+    TokenType::INTEGER, TokenType::EQ, TokenType::INTEGER, TokenType::SEMICOLON,
+    TokenType::INTEGER, TokenType::NOT_EQ, TokenType::INTEGER, TokenType::SEMICOLON,  
+   TokenType::EOF_,
   };
   lexer = Lexer(R"(
     let five = 5;
@@ -49,9 +56,18 @@ int main()
     let result = add(five, ten);
     !-/*5;
     5 < 10 > 5;
+
+    if (5 < 10) {
+      return true;
+    } else {
+      return false;
+    }
+
+    10 == 10;
+    10 != 9;
   )");
 
-  test_lexer(lexer, expectedTokens, 46);
+  test_lexer(lexer, expectedTokens, 74);
 
   return 0;
 }

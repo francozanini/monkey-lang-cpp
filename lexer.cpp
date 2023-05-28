@@ -12,6 +12,14 @@ Lexer::Lexer(std::string input) {
 Lexer::~Lexer() {
 }
 
+char Lexer::peekChar() {
+  if (this->readPosition >= this->input.length()) {
+    return '\0';
+  } else {
+    return this->input[this->readPosition];
+  }
+}
+
 void Lexer::readChar() {
   if (this->position >= this->input.length()) {
     this->currentChar = '\0';
@@ -30,57 +38,74 @@ Token* Lexer::nextToken() {
   this->skipWhitespace();
 
   switch (this->currentChar) {
-    case '=':
-      token = new Token(TokenType::assign, "=");
+    case '=': {
+      char nextChar = this->peekChar();
+      if (nextChar == '=') {
+        this->readChar();
+        token = new Token(TokenType::EQ, "==");
+      } else {
+        token = new Token(TokenType::ASSIGN, "=");
+      }
+    }
       break;
     case '+':
-      token = new Token(TokenType::plus, "+");
+      token = new Token(TokenType::PLUS, "+");
       break;
     case '(':
-      token = new Token(TokenType::lparen, "(");
+      token = new Token(TokenType::LPAREN, "(");
       break;
     case ')':
-      token = new Token(TokenType::rparen, ")");
+      token = new Token(TokenType::RPAREN, ")");
       break;
     case '{':
-      token = new Token(TokenType::lbrace, "{");
+      token = new Token(TokenType::LBRACE, "{");
       break;
     case '}':
-      token = new Token(TokenType::rbrace, "}");
+      token = new Token(TokenType::RBRACE, "}");
       break;
     case ',':
-      token = new Token(TokenType::comma, ",");
+      token = new Token(TokenType::COMMA, ",");
       break;
     case ';':
-      token = new Token(TokenType::semicolon, ";");
+      token = new Token(TokenType::SEMICOLON, ";");
       break;
-    case '!': 
-      token = new Token(TokenType::negate, "!");
+    case '!': {
+      char next = this->peekChar();
+      if (next == '=') {
+        this->readChar();
+        token = new Token(TokenType::NOT_EQ, "!=");
+      } else {
+        token = new Token(TokenType::NEGATE, "!");
+      }
+    }
       break;
     case '-': 
-      token = new Token(TokenType::minus, "-");
+      token = new Token(TokenType::MINUS, "-");
       break;
     case '/': 
-      token = new Token(TokenType::divide, "/");
+      token = new Token(TokenType::DIVIDE, "/");
       break;
     case '*': 
-      token = new Token(TokenType::multiply, "*");
+      token = new Token(TokenType::MULTIPLY, "*");
       break;
     case '<': 
-      token = new Token(TokenType::lt, "<");
+      token = new Token(TokenType::LT, "<");
       break;
     case '>': 
-      token = new Token(TokenType::gt, ">");
+      token = new Token(TokenType::GT, ">");
+      break;
+    case '\0':
+      token = new Token(TokenType::EOF_, "EOF");
       break;
     default: {
       if (isalpha(this->currentChar)) {
         std::string identifier = this->readIdentifier();
-        return new Token(lookupIdentifier(identifier), identifier);
+        return new Token(lookupKeyword(identifier), identifier);
       } else if (isdigit(this->currentChar)) {
-        return new Token(TokenType::integer, this->readInteger());
+        return new Token(TokenType::INTEGER, this->readInteger());
       } else {
         std::cout << "illegal token: " << this->currentChar << std::endl;
-        return new Token(TokenType::illegal, "");
+        return new Token(TokenType::ILLEGAL, "");
       }
     }
   }

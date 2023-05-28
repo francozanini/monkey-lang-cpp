@@ -17,6 +17,7 @@ private:
   void skipWhitespace();
   std::string readIdentifier();
   std::string readInteger();
+  char peekChar();
 public:
   Lexer(std::string input);
   ~Lexer();
