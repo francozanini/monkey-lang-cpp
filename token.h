@@ -1,54 +1,60 @@
+#ifndef TOKEN_H
+#define TOKEN_H
+
 #include <string>
 
-enum class TokenType {
-    ILLEGAL,
-    EOF_,
-    //literals + identifiers
-    IDENTIFIER,
-    INTEGER,
+namespace M {
+    enum class TokenType {
+        ILLEGAL,
+        EOF_,
+        //literals + identifiers
+        IDENTIFIER,
+        INTEGER,
 
-    //operators
-    ASSIGN,
-    PLUS,
-    MINUS,
-    NEGATE,
-    DIVIDE,
-    MULTIPLY,
-    LT,
-    GT,
-    EQ,
-    NOT_EQ,
+        //operators
+        ASSIGN,
+        PLUS,
+        MINUS,
+        NEGATE,
+        DIVIDE,
+        MULTIPLY,
+        LT,
+        GT,
+        EQ,
+        NOT_EQ,
 
-    //delimiters
-    COMMA,
-    SEMICOLON,
-    LPAREN,
-    RPAREN,
-    LBRACE,
-    RBRACE,
+        //delimiters
+        COMMA,
+        SEMICOLON,
+        LPAREN,
+        RPAREN,
+        LBRACE,
+        RBRACE,
 
-    //keywords
-    FUNCTION,
-    LET,
-    IF,
-    ELSE,
-    RETURN,
-    TRUE,
-    FALSE
+        //keywords
+        FUNCTION,
+        LET,
+        IF,
+        ELSE,
+        RETURN,
+        TRUE_,
+        FALSE_
 
-};
+    };
 
-std::string toString(TokenType type);
+    std::string toString(TokenType type);
 
-TokenType lookupKeyword(const std::string &identifier);
+    TokenType lookupKeyword(const std::string &identifier);
 
-class Token {
-public:
-    const TokenType type;
-    const std::string literal;
+    class Token {
+    public:
+        const TokenType type;
+        const std::string literal;
 
-    Token(TokenType type, std::string literal);
+        Token(TokenType type, std::string literal);
 
-    std::string tokenTypeAsString() const;
-};
+        [[nodiscard]] std::string tokenTypeAsString() const;
+    };
+}
 
+#endif

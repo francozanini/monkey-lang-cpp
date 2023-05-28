@@ -7,21 +7,28 @@
 
 class Lexer {
 private:
-  /* data */
-  std::string input;
-  int position;
-  int readPosition;
-  char currentChar;
+    /* data */
+    std::string input;
+    int position;
+    int readPosition;
+    char currentChar;
 
-  void readChar();
-  void skipWhitespace();
-  std::string readIdentifier();
-  std::string readInteger();
-  char peekChar();
+    void readChar();
+
+    void skipWhitespace();
+
+    std::string readIdentifier();
+
+    std::string readInteger();
+
+    char peekChar();
+
 public:
-  Lexer(std::string input);
-  ~Lexer();
-  Token* nextToken();
+    explicit Lexer(std::string input);
+
+    ~Lexer();
+
+    M::Token *nextToken();
 };
 
 #endif

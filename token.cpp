@@ -2,13 +2,15 @@
 #include <iostream>
 #include <utility>
 
-Token::Token(TokenType type, std::string literal) : type(type), literal(std::move(literal)) {}
+using namespace M;
 
-std::string Token::tokenTypeAsString() const {
+M::Token::Token(TokenType type, std::string literal) : type(type), literal(std::move(literal)) {}
+
+std::string M::Token::tokenTypeAsString() const {
     return toString(this->type);
 }
 
-TokenType lookupKeyword(const std::string &identifier) {
+TokenType M::lookupKeyword(const std::string &identifier) {
     if (identifier == "fn") {
         return TokenType::FUNCTION;
     } else if (identifier == "let") {
@@ -20,16 +22,16 @@ TokenType lookupKeyword(const std::string &identifier) {
     } else if (identifier == "return") {
         return TokenType::RETURN;
     } else if (identifier == "true") {
-        return TokenType::TRUE;
+        return TokenType::TRUE_;
     } else if (identifier == "false") {
-        return TokenType::FALSE;
+        return TokenType::FALSE_;
     } else {
         return TokenType::IDENTIFIER;
     }
 }
 
 
-std::string toString(TokenType type) {
+std::string M::toString(TokenType type) {
     switch (type) {
         case TokenType::ILLEGAL:
             return "ILLEGAL";
@@ -81,9 +83,9 @@ std::string toString(TokenType type) {
             return "ELSE";
         case TokenType::RETURN:
             return "RETURN";
-        case TokenType::TRUE:
+        case TokenType::TRUE_:
             return "TRUE";
-        case TokenType::FALSE:
+        case TokenType::FALSE_:
             return "FALSE";
         default: {
             std::cout << "Unknown token type: " << static_cast<int>(type) << std::endl;
